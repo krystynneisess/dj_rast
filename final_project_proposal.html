@@ -33,78 +33,64 @@
 
             <p>What you've envisioned is DJ Rast, a photo-manipulation program which responds to audio input, as opposed to more traditional, explicit user input (eg. manually selecting individual filters).  With an appreciation for both sight and sound as universal mediums of communication, we hope to explore the relationships that manifest when mapping auditory qualities--namely, frequency (pitch) and amplitude (volume)--with various image filters and transformations.<p>
 
-            <p>Our idea is essentially a kind of photomanipulation. We are interested in what kind of patterns will emerge from different patterns in sound as well as whether we can get an image to respond to different sampling techniques of the sound. For example, if there is aliasing in the sampling of the sound, will there be aliasing in the image? The challenges we face are parsing image files, extracting meaningful information out of it that somehow corresponds to information we can extract or modify in an image, as well as thinking about how to essentially "paint" an image out of different materials. This involves thinking about how materials like oil pant behave and how that can be modeled as a filter over an image. We think this would be a really fun and visually interesting project that adds an additional element to computer graphics that we haven't explored yet, realtime filtering based on a signal. We think if we are successful this project would be very interesting to look at while listening to a favorite song/ looking at a favorite image.</p>
-            <p>The following are topics from the CS184 course material that we will be exploring in depth to make this project work: </p>
+            <p>That is to say, we are interested in what kind of patterns will emerge from different patterns in sound as well as whether we can get an image to respond to different sampling techniques of the sound.  For example, if there is aliasing in the sampling of the sound, will there be aliasing in the image?</p> 
+
+            <p>The challenges we face are parsing image files, extracting meaningful information that corresponds to information we can modify in an image, as well as thinking about how to essentially "paint" an image out of different materials.  This involves thinking about how materials like oil pant behave and how that can be modeled as a filter over an image. We think this would be a really fun and visually interesting project that adds an additional element to computer graphics that we haven't explored yet:  realtime filtering based on a signal.  We think if we are successful this project would be quite interesting to look at while listening to a favorite song/ looking at a favorite image.</p>
+
+            <p>In our project, we intend to explore in depth the following CS184 course curriculum topics:</p>
+
             <ul> 
-            <li>Sampling</li>
-            <li>Filtering</li>
-            <li>Transformations</li>
-            <li>Colors</li>
-            <li>Image Processing: 
-                <ul>
-                <li>Blurring</li>
-                <li>Sharpening</li>
-                <li>Edge Detection</li>
-                <li>Etc.</li>
-                </ul>
-            <li>Possibly Lighting</li>
+                <li>Sampling</li>
+                <li>Filtering</li>
+                <li>Transformations</li>
+                <li>Colors</li>
+                <li>Image Processing: 
+                    <ul>
+                        <li>Blurring</li>
+                        <li>Sharpening</li>
+                        <li>Edge Detection</li>
+                        <li>Etc.</li>
+                    </ul>
+                <li>Possibly Lighting</li>
             </ul>
 
-            <p>We will also draw on ideas of rendering artisitc materials in this <a href = 'https://www.csc.ncsu.edu/faculty/healey/download/cstr.04.pdf'>paper</a> by the Knowledge Discovery Lab of North Carolina State University.</p>
+            <p>We will also draw on the ideas of <a href = 'https://www.csc.ncsu.edu/faculty/healey/download/cstr.04.pdf'>rendering artistic materials</a> as found by the Knowledge Discovery Lab of North Carolina State University.</p>
 
         <h2 align="middle">Resources</h2>
 
-            <p>These are hardware and software resources we will be (potentially) using to complete this project:<p>
+            <p>Below are the hardware and software resources we are potentially considering using to complete this project:<p>
             <ul> 
                 <li>OpenCV</li>
                 <li>Matlab</li>
-                <li>HW1 Codebase</li>
+                <li>Assignment 1 codebase</li>
                 <li>MP3 and SVG files</li>
-                <li>MP3 Analyzer <a href='http://spectro.enpts.com/'>Spectro</a></li>
-                <li>Additional unforseen resources</li>
-
-<<<<<<< HEAD
-=======
-            <p>We intend to use a fairly accessible assortment of resources, enumerated as follows:</p>
-
-                <ul>
-                    <li>Computing platform:  Linux, Windows.</li>
-                    <li>Hardware:  Computing hardware on par with typical personal computers.</li>
-                    <li>Software resources:</li>    
-                        <ul>
-                            <li>Rasterizester (Assignment 1) code base.</li>
-                            <li><a href="http://spectro.enpts.com/">Spectro</a>, a free MP3 analyzer.</li>
-                            <li>An assortment of MP3 and SVG files.  (Selection to be determined.)</li>
-                            <li>MATLAB, for additional GUI generation.*</li>
-                        </ul>
-                </ul>
-
-            <p>(An asterisk (*) indicates resources whose necessity is not yet guaranteed.)</p>
->>>>>>> 7ee2bd039d75b8a14ba4ba40d517ff877356cd8e
+                <li><a href='http://spectro.enpts.com/'>Spectro</a>, a free MP3 analyzier</li>
+            </ul>
 
         <h2 align="middle">Goals and Deliverables</h2>
 
             <h3>Baseline</h3>
-                <p>At the least we should be able to sample a single frequency tone from an audiofile (i.e. a single note) and from that be able to modify the image somehow based on the properties of the sound (i.e. frequency, ampltitude). Our current ideas are to assign colors to the frequency. We should also be able to transform an image to look like at least one different medium like oil paint. The image should respond (in perhaps a selectable way) to changes in the sound both in terms of frequency and volume. We should also observe the effects of aliasing this tone on our output image.</p>
+                <p>At a minimum, we should be able to sample a single frequency tone (ie. a single note) from an audio file, and from that be able to modify the image somehow based on the properties of the sound (i.e. frequency, ampltitude).  Our current ideas are to assign colors to the frequency. We should also be able to transform an image to look like at least one different medium like oil paint. The image should respond (in a perhaps selectable way) to changes in the sound both in terms of frequency and volume.  We should also observe the effects of aliasing this tone on our output image.</p>
             <p>
 
             <h3>Aspirations!</h3>
-            <p>The reach goals for this project are to implement multiple image filters along with potentially changing filters (i.e. from acrylic to oil) depending on some heuristic of our audio sample like the volume. Getting the image to update in realtime over an entire song, or multiple songs is also a cool goal to reach.</p>
+            <p>The "reach goals" for this project are to implement multiple image filters along with potentially changing filters (i.e. from acrylic to oil) depending on some heuristic of our audio sample, such as volume. Getting the image to update in realtime over an entire song, or multiple songs is also a cool goal to reach!</p>
 
-            <h3>Deliverables:</h3>
+            <h3>Deliverables</h3>
 
             <ul>
-                <li>demo:  select song, show resulting image transform</li>
+                <li>Demo:  Select a song, and show the resulting image transform.</li>
 
-                <li>measure quality:  "unit test" with individual sound properites </li>
+                <li>Measure quality:  "Unit test" with individual sound properites. </li>
 
-                <li>Investigate images of one constant color and see how our intepretation of sound frequency will affect each color differently</li>
-
-                <li>Investigate one image of a constant color and see how different frquencies affect the same color differently</li>
-
-                <li>Compare different songs on a single image and see how that song affect the images differently.</li>
-
-                <li>Compare different images on a single song and see how they are affected by that song.</li>
+                <li>Investigations of more complex trends:
+                    <ul>
+                        <li>Between several constant color images, how our intepretations of sound frequency will affect different colors.</li>
+                        <li>Between a single constnt color image, how different frquencies affect the same color.</li>
+                        <li>Between several songs, how different songs affect a single image.</li>
+                        <li>Between a single song, how different images are affected.</li>
+                    </ul>
+                </li>
             </ul>
 
         <h2 align="middle">Schedule</h2>
@@ -112,27 +98,26 @@
 
             <ul>
                 <li>[Task 1]</li>
-                    Research! Parsing mp3 files, reading and analyzing mp3 files to intepret frequencies, volumes, and characteristics of that file.
+                    Research! Parsing MP3 files; reading and analyzing MP3 files to intepret frequencies, volumes, and characteristics of that file.
                 <li>[Task 2]</li>
-                    Preliminary/proof of concept--image transform with a single tone. Generate a sinple mp3 file, possibly have a base feature to test this mp3 file against an image file.
+                    Preliminary proof of concept--image transform with a single tone.  Generate a sinple mp3 file, possibly having a base feature to test this mp3 file against an image file.
             </ul>
 
             <h3>Week 2 (4/24 - 4/30)</h3>
 
             <ul>
                 <li>[Task 1]</li>
-                    Create the majority of the features, filter images using mp3 sounds. Features may include changing images' colors, values, and shapres according to the sound of a mp3 file. Modify images to imitate different mediums such as oil, water paintings.
+                    Creating the majority of the features:  filter images using MP3 sounds.  Features may include changing images' colors, values, and shapes according to the sound of an MP3 file.  Modify images to imitate different mediums such as oil, water paintings.
                 <li>[Task 2]</li>
-                    Modify GUI, we will be having a song list to select from. This will be our main tool for presentation, it will give us the power the select songs and images and see how they interact with one another
+                    Modifying the GUI to inclue a song list to select from.  This will be our main tool for presentation, it will give us the power the select songs and images and see how they interact with one another
 
             </ul>
 
-            <h3>Week 1 (5/01 - 5/07)</h3>
+            <h3>Week 3 (5/01 - 5/07)</h3>
 
             <ul>
                 <li>[Task 1]</li>
-                Firefighting and presentation prep, and debug.
-                <li>[Task 2]</li>
+                Last-minute firefighting and debugging.  Presentation preparation.
             </ul>
 
     </div>
