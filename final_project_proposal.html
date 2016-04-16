@@ -40,6 +40,13 @@
 
         <h2 align="middle">Background</h2>
 
+            <p><i>Here you should provide the context for your idea. Describe the problem that you are trying to solve, why it is challenging, why it is important, why you care about it and why others should care about it as well. List what resources, e.g. books, papers and/or online resources that are reference for your project.</i></p>
+
+            <br><br>
+ 
+            <p><i>As a slow melody rolls in, the colors seem to blur.  Yet gradually, the tune quickens.  Becomes louder.  Bolder.  As if to equally enjoy the change, the image before you brightens, hues growing more intense by the beat.   Observing its steady transformation, you begin to see the song in, quite literally, a new light...</i></p>
+
+            <p>What you've envisioned is DJ Rast, a photo-manipulation program which responds to audio input, as opposed to more traditional, explicit user input (eg. manually selecting individual filters).  With an appreciation for both sight and sound as universal mediums of communication, we hope to explore the relationships that manifest when mapping auditory qualities--namely, frequency (pitch) and amplitude (volume)--with various image filters and transformations.<p>
 
             <p>Our idea is essentially a kind of photomanipulation. We are interested in what kind of patterns will emerge from different patterns in sound as well as whether we can get an image to respond to different sampling techniques of the sound. For example, if there is aliasing in the sampling of the sound, will there be aliasing in the image? The challenges we face are parsing image files, extracting meaningful information out of it that somehow corresponds to information we can extract or modify in an image, as well as thinking about how to essentially "paint" an image out of different materials. This involves thinking about how materials like oil pant behave and how that can be modeled as a filter over an image. We think this would be a really fun and visually interesting project that adds an additional element to computer graphics that we haven't explored yet, realtime filtering based on a signal. We think if we are successful this project would be very interesting to look at while listening to a favorite song/ looking at a favorite image.</p>
             <p>The following are topics from the CS184 course material that we will be exploring in depth to make this project work: </p>
@@ -58,17 +65,7 @@
             <li>Possibly Lighting</li>
             </ul>
 
-
-
-            <p><i>Here you should provide the context for your idea. Describe the problem that you are trying to solve, why it is challenging, why it is important, why you care about it and why others should care about it as well. List what resources, e.g. books, papers and/or online resources that are reference for your project.</i></p>
-
-            <br><br>
- 
-            <p><i>As a slow melody rolls in, the colors seem to blur.  Yet gradually, the tune quickens.  Becomes louder.  Bolder.  As if to equally enjoy the change, the image before you brightens, hues growing more intense by the beat.   Observing its steady transformation, you begin to see the song in, quite literally, a new light...</i></p>
-
-            <p>What you've envisioned is DJ Rast, a photo-manipulation program which responds to audio input, as opposed to more traditional, explicit user input (eg. manually selecting individual filters).  With an appreciation for both sight and sound as universal mediums of communication, we hope to explore the relationships that manifest when mapping auditory qualities--namely, frequency (pitch) and amplitude (volume)--with various image filters and transformations.<p>
-
-
+            <p>We will also draw on ideas of rendering artisitc materials in this <a href = 'https://www.csc.ncsu.edu/faculty/healey/download/cstr.04.pdf'>paper</a> by the Knowledge Discovery Lab of North Carolina State University.</p>
 
         <h2 align="middle">Resources</h2>
 
@@ -80,37 +77,16 @@
                 <li>MP3 and SVG files</li>
                 <li>MP3 Analyzer <a href='http://spectro.enpts.com/'>Spectro</a></li>
                 <li>Additional unforseen resources</li>
-            <p><i>List the computing platform, hardware and software resources that you will use for your project. You have a wide latitude here to use what you have access to, but be aware that you will have to support and trouble-shoot on your platform yourselves. If you are starting from an existing piece of code or system, describe and provide a pointer to it here.</i></p>
 
-            <p>[Resources and more resources!]</p>
-
-            <ul>
-                <li>[Bullet points if we want 'em.]</li>
-            </ul>
 
         <h2 align="middle">Goals and Deliverables</h2>
-            <p>At the least we should be able to sample a single frequency tone from an audiofile (i.e. a single note) and from that be able to modify the image somehow based on the properties of the sound (i.e. frequency, ampltitude). Our current ideas are to assign colors to the frequency </p>
-            <p>
-            <i>This is the most important part of your proposal. You should carefully think through what you are trying to accomplish, what results you are going for, and why you think you can accomplish those goals. For example:</p>
-
-            <ul>
-                <li>Since this is a graphics class you will likely define the kind of images you will create (e.g. including a photo of a new lighting effect you will simulate).</li>
-                <li>If you are working on an interactive system, describe what demo you will create.</li>
-                <li>Define how you will measure the quality / performance of your system (e.g. graphs showing speedup, or quantifying accuracy). It may not be possible to define precise target metrics at this time, but we encourage you to try.</li>
-                <li>What questions do you plan to answer with your analysis?</li>
-            </ul>
-
-            <p>You should break this section into two parts: (1) what you plan to deliver, and (2) what you hope to deliver. In (1), describe what you believe you must accomplish to have a successful project and achieve the grade you expect (i.e. your baseline plan -- planning for some unexpected problems would make sense). In (2), describe what you hope to achieve if things go well and you get ahead of schedule (your aspirational plan).</i></p>
 
             <h3>Baseline</h3>
                 <p>At the least we should be able to sample a single frequency tone from an audiofile (i.e. a single note) and from that be able to modify the image somehow based on the properties of the sound (i.e. frequency, ampltitude). Our current ideas are to assign colors to the frequency. We should also be able to transform an image to look like at least one different medium like oil paint. The image should respond (in perhaps a selectable way) to changes in the sound both in terms of frequency and volume. We should also observe the effects of aliasing this tone on our output image.</p>
             <p>
 
-            <p>[Right, uh, contingency plans are a thing...]</p>
-
             <h3>Aspirations!</h3>
-
-            <p>[The dream!]</p>
+            <p>The reach goals for this project are to implement multiple image filters along with potentially changing filters (i.e. from acrylic to oil) depending on some heuristic of our audio sample like the volume. Getting the image to update in realtime over an entire song, or multiple songs is also a cool goal to reach.</p>
 
             <h3>Deliverables:</h3>
 
