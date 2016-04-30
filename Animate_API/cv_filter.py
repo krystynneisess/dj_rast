@@ -6,6 +6,44 @@ from scipy import signal
 import matplotlib.animation as animation
 
 # still to do: contrast, brightness, painterly effects
+def convolve(img, kernel) :
+	k_height, k_width = kernel.shape
+	nk = np.empty((k_height, k_width), dtype=np.float32)
+
+	off = (k_height-1)/2
+	for a in range(k_height):
+		for b in range(k_width):
+			nk[k_height-1-a, k_width-1-b] = kernel[a, b]
+	dim = img.shape
+	i_height = dim[0]
+	i_width = dim[1]
+
+	if len(img.shape) == 3: 
+		dst = np.empty((i_height, i_width, 3), dtype=np.uint8)
+		for i in range(off, i_height-off):
+			for j in range(off, i_width-off):
+				sum0 = 0.0
+				sum1 = 0.0
+				sum2 = 0.0
+				for ii in range(k_height):
+					for jj in range(k_width):
+						sum0 += nk[ii, jj]*img[i-off+ii, j-off+jj, 0]
+						sum1 += nk[ii, jj]*img[i-off+ii, j-off+jj, 1]
+						sum2 += nk[ii, jj]*img[i-off+ii, j-off+jj, 2]
+				dst[i, j, 0] = sum0
+				dst[i, j, 1] = sum1
+				dst[i, j, 2] = sum2
+	else:
+		dst = np.empty((i_height, i_width), dtype=np.uint8)
+		for i in range(off, i_height-off):
+			for j in range(off, i_width-off):
+				sum0 = 0.0
+				for ii in range(k_height):
+					for jj in range(k_width):
+						sum0 += nk[ii, jj]*img[i-off+ii, j-off+jj]
+				dst[i, j] = sum0
+	return dst
+
 
 def sharpen(img, value) : 
 	factor = 10 * value
@@ -22,7 +60,7 @@ def blur(img, value) :
 def edge_detect(img, value) :
 	vertical = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]]) #  vertical gradient
 	horizontal = np.array([[-1, -2, -2], [0, 0, 0], [1, 2, 2]]) # horizontal gradient
-	if value == 0 or value == 1 or value == 2 or value == 6: # grey result
+	if value == 0 or value == 1 or value == 2 or value == 6: # gray result
 		gray = len(img.shape)
 		if (gray == 3) : 
 			img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -97,7 +135,10 @@ def updatefig(fig):
 # file = 'chemise'
 # file = 'city'
 file = 'parasol'
+
 img = cv2.imread('./images/' + file + '.jpg', 1)
+img2 = cv2.imread('./images/' + file + '.jpg', 0)
+img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
 dst = edge_detect(img, 6)
 v_grad = edge_detect(img, 1)
@@ -108,12 +149,14 @@ im = plt.imshow(dst, animated=True, cmap='Greys_r')
 a = 0
 ani = animation.FuncAnimation(fig, updatefig, interval=100, blit=True)
 
-# f = plt.figure(1, figsize=(20,5))
-# ax1 = f.add_subplot(121)
-# ax2 = f.add_subplot(122)
+
+
+f = plt.figure(2, figsize=(20,5))
+ax1 = f.add_subplot(121)
+ax2 = f.add_subplot(122)
 # ax1.imshow(cv2.cvtColor(dst, cv2.COLOR_BGR2RGB))
 # ax2.imshow(cv2.cvtColor(dst1, cv2.COLOR_BGR2RGB))
-# ax1.imshow(dst, cmap='Greys_r')
+ax1.imshow(dst, cmap='Greys_r')
 # ax2.imshow(dst1, cmap='Greys_r')
 
 plt.show()
