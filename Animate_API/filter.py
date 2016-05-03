@@ -11,7 +11,10 @@ filters = {'saturate': saturate,
 		   'warmer': warmer,
 		   'cooler': cooler,
 		   'contrast': contrast,
-		   'invert': invert}
+		   'invert': invert,
+		   'sharpen': sharpen,
+		   'blur': blur,
+		   'edge_detect', edge_detect}
 
 
 def filter(img, filter_name, value):
