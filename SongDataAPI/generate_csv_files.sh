@@ -1,7 +1,9 @@
 #!/bin/bash
 
-SONGNAME="fly_me_to_the_moon"
+# SONGNAME="fly_me_to_the_moon"
 # SONGNAME="chum"
+# SONGNAME="johnny_guitar"
+SONGNAME="this_game"
 
 # cd into yaafe folder to run yaafe scripts
 cd ../yaafe-v0.64/src_python

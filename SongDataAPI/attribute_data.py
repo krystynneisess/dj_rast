@@ -5,6 +5,8 @@ class AttributeData(object):
 	seconds = {}
 	seconds["fly_me_to_the_moon"] = 163
 	seconds["chum"] = 190
+	seconds["johnny_guitar"] = 174
+	seconds["this_game"] = 306
 	# toy data for testing
 	seconds["toy_data_1"] = 4
 	seconds["toy_data_2"] = 4

@@ -59,14 +59,41 @@ class BPMData(AttributeData):
 		return np.array(avg_data)
 
 	"""
-	Determines sensitivity based on variance. 
+	Determines sensitivity based on variance in energy data. 
 
 	Higher variance --> more sensitive --> lower sensitivity threshold.
 	"""
-	def set_sensitivity(self):
+	def set_sensitivity(self, filename):
 		# TODO
-		return 1.2 # ideal for fly_me_to_the_moon
-		# return 1.00 # ideal for earl-sweatshirt_chum
+		sens = {}
+		sens["fly_me_to_the_moon"] = 1.170
+		sens["chum"] = 1.0
+		sens["johnny_guitar"] = 1.225
+		sens["this_game"] = 1.080
+	
+		return sens[filename]
+
+	"""
+	Returns the variance in energy data.
+	"""
+	def energy_variance(self):
+		# compute average
+		avg = 0
+
+		for d in self.data:
+			avg += d[0]
+
+		avg = avg / self.data_length
+
+		# compute variance
+		var = 0
+
+		for d in self.data:
+			var += m.pow(avg - d[0], 2)
+
+		var = var / self.data_length
+
+		return var
 
 	"""
 	From self.data (which is currently instantaneous energy measurements),
@@ -118,7 +145,7 @@ class BPMData(AttributeData):
 	def get_bpm_2(self):
 		beats = self.extract_beats()
 
-		# min_beat_len = 3 # ideal for fly_me_to_the_moon
+		# min_beat_len = 3 # NVM... # ideal for fly_me_to_the_moon
 		min_beat_len = 2 # ideal for earl_sweatshirt_chum
 
 		beat_count = 0
@@ -146,7 +173,7 @@ class BPMData(AttributeData):
 
 
 		self.data_type = "bpm"
-		self.sensitivity = self.set_sensitivity()
+		self.sensitivity = self.set_sensitivity(filename)
 		self.bpm = self.get_bpm_2()
 		self.bpm_data = self.extract_beats()
 
@@ -156,6 +183,9 @@ if __name__ == "__main__":
 	a = BPMData()
 	a.populate_data("fly_me_to_the_moon_csv_files/fly_me_to_the_moon.wav.energy.csv")
 	# a.populate_data("chum_csv_files/chum.wav.energy.csv")
+	# a.populate_data("johnny_guitar_csv_files/johnny_guitar.wav.energy.csv")
+	# a.populate_data("this_game_csv_files/this_game.wav.energy.csv")
+
 	# a.populate_data("dev_csv_files/fly_me_to_the_moon.wav.energy_b1024s1024.csv")
 	# a.populate_data("dev_csv_files/fly_me_to_the_moon.wav.perceptual_sharpness.csv")
 	# a.populate_data("dev_csv_files/toy_data_2.wav.toy_type.csv")
@@ -172,6 +202,7 @@ if __name__ == "__main__":
 	
 	# print a.extract_beats()
 	print a.bpm
+	print a.energy_variance()
 
 	# a.normalize()
 	# print a.data
@@ -183,3 +214,13 @@ if __name__ == "__main__":
 
 	# a.downsample(a.song_length)
 	# print a.data
+
+
+
+	#BPM REFERENCE vals
+
+	# BPM ~BPM 		sens 	Var 		Name
+	# 118: 118.9 	1.170	0.00627		fly_me_to_the_moon
+	# 154: 155.7 	1.000	0.01288		chum 					
+	# 080: 080.3 	1.225   0.00134 	johnny_guitar 			
+	# 147: 146.3	1.080	0.00232		this_game 				

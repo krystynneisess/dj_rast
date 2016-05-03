@@ -134,7 +134,9 @@ def get_bpm_data(a):
 
 # testing/playing around
 if __name__ == "__main__":
-	s = SongDataAPI("fly_me_to_the_moon")
+	# s = SongDataAPI("fly_me_to_the_moon")
+	# s = SongDataAPI("johnny_guitar")
+	s = SongDataAPI("this_game")
 
 	print s.get_member("loudness_centroid", "data_type")
 	print s.get_member("loudness_spread", "data_type")
