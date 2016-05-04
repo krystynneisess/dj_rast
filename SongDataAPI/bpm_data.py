@@ -173,7 +173,7 @@ class BPMData(AttributeData):
 
 
 		self.data_type = "bpm"
-		self.sensitivity = self.set_sensitivity(filename)
+		self.sensitivity = self.set_sensitivity(self.song_name)
 		self.bpm = self.get_bpm_2()
 		self.bpm_data = self.extract_beats()
 
