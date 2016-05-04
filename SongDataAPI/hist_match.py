@@ -21,16 +21,8 @@ class Equalizer:
 			sumn_1 = sumn
 		return dyn
 
-	# def prob_n(n , hist, total) :
-	# 	return hist[n]/total
-
 	def equalize_gray(self): 
 		height, width = self.data.shape
-		# if (width == 1) :
-		# 	hist = np.histogram(self.data, 256, (0, 1))
-		# 	# hist = cv2.calcHist([self.data],[0],None,[256],[0,1])
-		# else:
-			# hist = np.histogram(self.data, 256, (0, 256))
 		hist = cv2.calcHist([self.data],[0],None,[256],[0,256])
 
 		height, width = self.data.shape
