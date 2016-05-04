@@ -140,7 +140,8 @@ img = cv2.imread('./images/' + file + '.jpg', 1)
 img2 = cv2.imread('./images/' + file + '.jpg', 0)
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-dst = edge_detect(img, 6)
+# dst = edge_detect(img, 6)
+dst = img
 v_grad = edge_detect(img, 1)
 h_grad = edge_detect(img, 2)
 
@@ -150,13 +151,12 @@ a = 0
 ani = animation.FuncAnimation(fig, updatefig, interval=100, blit=True)
 
 
-
-f = plt.figure(2, figsize=(20,5))
-ax1 = f.add_subplot(121)
-ax2 = f.add_subplot(122)
+# f = plt.figure(2, figsize=(20,5))
+# ax1 = f.add_subplot(121)
+# ax2 = f.add_subplot(122)
 # ax1.imshow(cv2.cvtColor(dst, cv2.COLOR_BGR2RGB))
 # ax2.imshow(cv2.cvtColor(dst1, cv2.COLOR_BGR2RGB))
-ax1.imshow(dst, cmap='Greys_r')
+# ax1.imshow(dst, cmap='Greys_r')
 # ax2.imshow(dst1, cmap='Greys_r')
 
 plt.show()

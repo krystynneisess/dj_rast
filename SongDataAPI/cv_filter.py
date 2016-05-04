@@ -5,11 +5,10 @@ import matplotlib.animation as animation
 import math as m
 from song_data_api import SongDataAPI
 from hist_match import Equalizer
+from edge_detect import EdgeDetect 
 from contrast import Contrast
 
 # still to do: contrast, brightness, painterly effects
-
-
 def convolve(img, kernel) :
 	k_height, k_width = kernel.shape
 	nk = np.empty((k_height, k_width), dtype=np.float32)
@@ -63,81 +62,33 @@ def blur(img, value) :
 	kernel = np.ones((factor,factor),np.float32)/pow(factor, 2) # blur
 	return cv2.filter2D(img, -1, kernel)
 
-def edge_detect(img, value) :
-	vertical = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]]) #  vertical gradient
-	horizontal = np.array([[-1, -2, -2], [0, 0, 0], [1, 2, 2]]) # horizontal gradient
-	if value == 0 or value == 1 or value == 2 or value == 6: # gray result
-		gray = len(img.shape)
-		if (gray == 3) : 
-			img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-	img2 = cv2.bilateralFilter(img, 15, 80, 80)
-
-	img1 = np.array(img2, dtype=np.float64)
-
-	v_grad = cv2.filter2D(img1, -1, vertical)
-	h_grad = cv2.filter2D(img1, -1, horizontal)
-
-	abs_v = np.absolute(v_grad)
-	abs_h = np.absolute(h_grad)
-
-	v_grad = np.array(abs_v, dtype=np.uint8)
-	h_grad = np.array(abs_h, dtype=np.uint8)
-	if value == 1 or value == 4:
-		return v_grad
-	elif value == 2 or value == 5: 
-		return h_grad
-	else: 	
-		if value == 3: #color image
-			height, width, x = img.shape
-			dst = np.empty((height, width, 3), dtype=np.uint8)
-			for i in range(height):
-				for j in range(width): 
-					sum0 = pow(v_grad[i, j, 0], 2) + pow(h_grad[i, j, 0], 2)
-					sum1 = pow(v_grad[i, j, 1], 2) + pow(h_grad[i, j, 1], 2)
-					sum2 = pow(v_grad[i, j, 2], 2) + pow(h_grad[i, j, 2], 2)
-					dst[i, j, 0] = pow(sum0, .5)
-					dst[i, j, 1] = pow(sum1, .5)
-					dst[i, j, 2] = pow(sum2, .5)
-			dst = cv2.cvtColor(dst, cv2.COLOR_BGR2RGB)
-		else: 
-			height, width = img.shape
-			dst = np.empty((height, width), dtype=np.uint8)
-			#edge detection grayscale:
-			for i in range(height):
-				for j in range(width):
-					sum0 = pow(v_grad[i, j], 2) + pow(h_grad[i, j], 2)
-					dst[i, j] = pow(sum0, .5)
-			if value == 6: 
-				dst = blur(dst, .7)
-				dstv = cv2.filter2D(dst, -1, vertical)
-				dsth = cv2.filter2D(dst, -1, horizontal)
-				for i in range(height):
-					for j in range(width):
-						sum0 = pow(dstv[i, j], 2) + pow(dsth[i, j], 2)
-						dst[i, j] = pow(sum0, .5)
-		return dst
-
-
 # It was useful to plot the histogram of the data because sometimes it was concentrated around
 # some average value making it always blurred and never in focus. For this feature especially it
 # important to center the changes in the image around the average.
 def updatefig(fig):
     global a, avg, diff
-    a += 1
+    a += 10
     value = abs(avg-loudness_spread[a])/diff
-    dst = blur(img, value)
+    dst = con_img.contrast(1.0+value, value*20)
+    # print(value)
+    # print(str(value*20))
+    # dst = blur(img, value)
     im.set_array(dst)
     return im,
+
+
 
 # file = 'tree'
 # file = 'clown'
 # file = 'guitarist'
 # file = 'fox'																																																																																																																																																																
 # file = 'shape'
-# file = 'chemise'
+file = 'chemise'
 # file = 'city'
 # file = 'parasol'
-file = 'under_expose'
+# file = 'under_expose'
+# file = 'lena_low'
+# file = 'test'
 
 song = SongDataAPI("fly_me_to_the_moon")
 loudness_spread = song.get_member("loudness_spread", "data")
@@ -145,28 +96,42 @@ loudness_spread = song.get_member("loudness_spread", "data")
 img = cv2.imread('./images/' + file + '.jpg', 1)
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-eq_dst = Equalizer(img)
-img = eq_dst.equalize_color()
+# Edge Detection block
+# e_d_img = EdgeDetect(img)
+# dst = e_d_img.detect_edge(3)
+# dst_1 = np.array(dst, dtype=np.float32)
+# img_1 = np.array(img, dtype=np.float32)
+# dst1 = np.array(((dst_1 + img_1)/2), dtype=np.uint8)
+# eq_dst1 = Equalizer(dst1)
+# eq_img = eq_dst1.equalize_color()
+
+# Contrast Block
+con_img = Contrast(img)
+dst = con_img.contrast(1, 80)
 
 a = 0
 avg = np.mean(loudness_spread)
 diff = max(abs(avg - np.amax(loudness_spread)), abs(avg - np.amin(loudness_spread)))
 fig = plt.figure()
-im = plt.imshow(img, animated=True, cmap='Greys_r')
-ani = animation.FuncAnimation(fig, updatefig, interval=200, blit=True)
+im = plt.imshow(img, animated=True)
+ani = animation.FuncAnimation(fig, updatefig, interval=50, blit=True)
 
-# f = plt.figure(2, figsize=(20,8))
+# f = plt.figure()
 # ax1 = f.add_subplot(121)
 # ax2 = f.add_subplot(122)
-# # ax3 = f.add_subplot(223)
-# # ax4 = f.add_subplot(224)
-# # ax1.imshow(img)
-# # ax2.hist(img.ravel(), 256, [0, 255])
-# # ax3.imshow(dst)
-# # ax4.hist(loudness_spread.ravel(), 256, [0, 1])
 # ax1.imshow(img)
 # ax2.imshow(dst)
 
+
+# f = plt.figure(2, figsize=(20,8))
+# ax1 = f.add_subplot(221)
+# ax2 = f.add_subplot(222)
+# ax3 = f.add_subplot(223)
+# ax4 = f.add_subplot(224)
+# ax1.imshow(img, cmap='Greys_r')
+# ax3.imshow(dst, cmap='Greys_r')
+# ax2.hist(img.ravel(), 256, [0, 255])
+# ax4.hist(dst.ravel(), 256, [0, 255])
 
 plt.show()
 
