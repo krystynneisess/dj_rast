@@ -7,6 +7,9 @@ from cv_filter import *
 import os.path
 from Tkinter import *
 import tkSnack
+from hist_match import Equalizer
+from contrast import Contrast
+from edge_detect import EdgeDetect
 
 
 interval = {}
@@ -26,11 +29,11 @@ while not os.path.isfile('images/' + img + '.jpg'):
 
 songs = ['chum', 'fly_me_to_the_moon']
 print('----===== Available Songs =====----')
-for song in songs:
-	print song
-song = raw_input('Please Select a Song: ')
-while not os.path.isfile(song + '.wav'):
-	song = raw_input(song + ' is not one of the available songs, please select another: ')
+for song_str in songs:
+	print song_str
+song_str = raw_input('Please Select a Song: ')
+while not os.path.isfile(song_str + '.wav'):
+	song_str = raw_input(song_str + ' is not one of the available songs, please select another: ')
 
 modes = ['separate', 'composite']
 print ("----==== Available Modes ====----")
@@ -41,65 +44,112 @@ while mode not in modes:
 	mode = raw_input(mode + " is not one of the available modes, please select another: ")
 
 
-song = SongDataAPI(song)
-frequency_spread = song.get_member("frequency_spread", "data")
-frequency_centroid = song.get_member("frequency_centroid", "data")
-frequency_centroid = frequency_centroid[0:6000]
-frequency_centroid = frequency_centroid/np.max(frequency_centroid)
-img = cv2.imread('images/' + img + '.jpg', 1)
-img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+# song = SongDataAPI(song_str)
+# frequency_spread = song.get_member("frequency_spread", "data")
+# frequency_centroid = song.get_member("frequency_centroid", "data")
+# frequency_centroid = frequency_centroid[0:6000]
+# frequency_centroid = frequency_centroid/np.max(frequency_centroid)
+# loudness_spread = song.get_member("loudness_spread", "data")
+# song_length = song.get_member("loudness_spread", "song_length")
+# song_samples = song.get_member("loudness_spread", "data_length")
+# img = cv2.imread('images/' + img + '.jpg', 1)
+# img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+# img_edge = EdgeDetect(img)
+# img_cont = Contrast(img)
+
+# dst = img_edge.detect_edge(3)
+# dst_1 = np.array(dst, dtype=np.float32)
+# img_1 = np.array(img, dtype=np.float32)
+# dst1 = np.array(((dst_1 + img_1)/2), dtype=np.uint8)
+# eq_dst1 = Equalizer(dst1)
+# eq_img = eq_dst1.equalize_color()
 
 
+# bpm_bold = img_edge.detect_edge(6)
+# bpm_faded = img_edge.detect_edge_faded(6, 0.5)
 
-avg = np.mean(frequency_spread)
-a = 0
-fig = plt.figure(2, figsize=(20,8))
-my_interval = interval["fly_me_to_the_moon"]
+# avg_loud = np.mean(loudness_spread)
+# diff = max(abs(avg_loud - np.amax(loudness_spread)), abs(avg_loud - np.amin(loudness_spread)))
 
-if mode == 'separate':
-	def updatefig(fig):
-	    global a, avg, diff
-	    a += 1
-	    value = frequency_centroid[a]
-	    img_sat = saturate(img, value)
-	    img_temp = temperature(img, value)
-	    img_bright = brightness(img, value)
-	    im_sat.set_array(img_sat)
-	    im_temp.set_array(img_temp)
-	    im_bright.set_array(img_bright)
-	    return im_sat, im_temp, im_bright
+# avg = np.mean(frequency_spread)
+# a = 0
+# toggle = 0
+# fig = plt.figure(2, figsize=(20,8))
+# my_interval = interval["fly_me_to_the_moon"]
 
-	ax1 = fig.add_subplot(221)
-	ax2 = fig.add_subplot(222)
-	ax3 = fig.add_subplot(223)
-	im_sat = ax1.imshow(img, animated=True)
-	ax1.set_title('saturation')
-	im_temp = ax2.imshow(img, animated=True)
-	ax2.set_title('temperature')
-	im_bright = ax3.imshow(img, animated=True)
-	ax3.set_title('brightness')
-	ani = animation.FuncAnimation(fig, updatefig, interval=my_interval, blit=True)
+# bpm = 400
+# increment = float(song_samples)*float(bpm)/(float(song_length)*float(1000))
 
-else:
-	def updatefig(fig):
-	    global a, avg, diff
-	    a += 1
-	    value = frequency_centroid[a]
-	    dst = saturate(img, value)
-	    im.set_array(dst)
-	    return im,
+# if mode == 'separate':
+# 	def updatefig(fig):
+# 	    global a, avg, diff, toggle
+# 	    a += increment
 
-	im = plt.imshow(img, animated=True)
-	ani = animation.FuncAnimation(fig, updatefig, interval=my_interval, blit=True)
+# 	    if toggle == 0:
+# 	    	toggle = 1
+# 	    	im_bpm.set_array(bpm_bold)
+# 	    	im_bpm.set_cmap("Greys_r")
+
+# 	    else:
+# 	    	toggle = 0
+# 	    	im_bpm.set_array(bpm_faded)
+# 	    	im_bpm.set_cmap("Greys_r")
+
+# 	    value = frequency_centroid[a]
+# 	    value_contrast = abs(avg_loud - loudness_spread[m.floor(a)])/diff
+# 	    img_sat = saturate(img, value)
+# 	    img_temp = temperature(img, value)
+# 	    img_bright = brightness(img, value)
+# 	    im_sat.set_array(img_sat)
+# 	    im_temp.set_array(img_temp)
+# 	    im_bright.set_array(img_bright)
+# 	    im_contrast.set_array(img_cont.contrast(1.0+value_contrast, value_contrast*20))
+# 	    im_blur.set_array(blur(img, value_contrast))
+# 	    return im_sat, im_temp, im_bright, im_contrast, im_blur, im_bpm
+
+# 	ax1 = fig.add_subplot(231)
+# 	ax2 = fig.add_subplot(232)
+# 	ax3 = fig.add_subplot(233)
+# 	ax4 = fig.add_subplot(234)
+# 	ax5 = fig.add_subplot(235)
+# 	ax6 = fig.add_subplot(236)
+# 	im_sat = ax1.imshow(img, animated=True)
+# 	ax1.set_title('Saturation by Frequency')
+# 	im_temp = ax2.imshow(img, animated=True)
+# 	ax2.set_title('Temperature by Frequency')
+# 	im_bright = ax3.imshow(img, animated=True)
+# 	ax3.set_title('Brightness by Frequency')
+# 	im_contrast = ax4.imshow(img, animated=True)
+# 	ax4.set_title('Contrast by Loudness')
+# 	im_blur = ax5.imshow(img, animated=True)
+# 	ax5.set_title('Blur by Loudness')
+# 	im_bpm = ax6.imshow(img, animated=True)
+# 	ax6.set_title('Edge Detection by BPM')
+# 	ani = animation.FuncAnimation(fig, updatefig, interval=my_interval, blit=True)
+
+# else:
+# 	def updatefig(fig):
+# 	    global a, avg, diff
+# 	    a += 1
+# 	    value = frequency_centroid[a]
+# 	    dst = saturate(img, value)
+# 	    im.set_array(dst)
+# 	    return im,
+
+# 	im = plt.imshow(img, animated=True)
+# 	ani = animation.FuncAnimation(fig, updatefig, interval=my_interval, blit=True)
 
 # diff = max(abs(np.mean(loudness) - min(loudness)), abs(np.mean(loudness) - max(loudness))
 # blur((loudness[x] - np.mean(loudness))/diff, img))
 
 # con_img = Contrast(img)
 # con = contrast(1.0 + loudness[x] - np.mean(loudness))/diff, 20*loudness[x])
-# root = Tk()
-# tkSnack.initializeSnack(root)
-# song_to_play = tkSnack.Sound()
-# song_to_play.read(song +'.wav')
-# song_to_play.play()
-plt.show()
+root = Tk()
+tkSnack.initializeSnack(root)
+song_to_play = tkSnack.Sound()
+song_to_play.read(song_str +'.wav')
+print "PLAYING MUSIC"
+song_to_play.play()
+print "PLOTTING START"
+# plt.show()
