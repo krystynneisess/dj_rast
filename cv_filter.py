@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import signal
 import matplotlib.animation as animation
+from scipy.interpolate import UnivariateSpline
 
 # still to do: contrast, brightness, painterly effects
 def convolve(img, kernel) :
@@ -105,6 +106,105 @@ def edge_detect(img, value) :
 						sum0 = pow(dstv[i, j], 2) + pow(dsth[i, j], 2)
 						dst[i, j] = pow(sum0, .5)
 		return dst
+
+def brightness(img, amount):
+
+	height, width, x = img.shape
+
+	img = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)
+	cv2.imshow('img', img)
+
+	for i in range(0, height):
+		for j in range(0, width):
+			img[i, j, 2] = min(max(0, img[i, j, 2] + amount), 255)
+
+	img = cv2.cvtColor(img, cv2.COLOR_HSV2RGB)
+	return img
+
+def invert(img, value):
+	height, width, x = img.shape
+
+	for i in range(0, height):
+		for j in range(0, width):
+			img[i, j, 0] = abs(img[i, j, 0] - 255)
+			img[i, j, 1] = abs(img[i, j, 1] - 255)
+			img[i, j, 2] = abs(img[i, j, 2] - 255)
+	return img
+
+def saturate(img, amount):	
+	height, width, x = img.shape
+
+	img = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)
+
+	for i in range(0, height):
+		for j in range(0, width):
+			img[i, j, 1] = min(max(0, img[i, j, 1] + amount), 255)
+
+	img = cv2.cvtColor(img, cv2.COLOR_HSV2RGB)
+	return img
+
+def temperature(img, amount):
+	if (amount < 0 or amount > 1):
+		raise NameError('amount must be between 0 and 1')
+	elif amount >= .5:
+		print (amount-.5)*2
+		return warmer(img, (amount-.5)*2)
+	else:
+		print (.5 - amount)*2
+		return cooler(img, (.5 - amount)*2)
+
+def create_LUT_8UC1(x, y):
+	spl = UnivariateSpline(x, y)
+	return spl(xrange(256))
+
+def warmer(img, amount):
+
+	if (amount < 0 or amount > 1):
+		raise NameError('amount must be between 0 and 1')
+
+	incr_ch_lut = create_LUT_8UC1([0, 64,      192,      256],
+	                              [0, 64 + 40*amount, 192 + 45*amount, 256])
+	decr_ch_lut = create_LUT_8UC1([0, 64,      192,      256],
+                       	          [0, 64 - 52*amount, 192 - 85*amount, 192])
+	 
+	c_r, c_g, c_b = cv2.split(img)
+	c_r = cv2.LUT(c_r, incr_ch_lut).astype(np.uint8)
+	c_b = cv2.LUT(c_b, decr_ch_lut).astype(np.uint8)
+	img = cv2.merge((c_r, c_g, c_b))
+
+	c_b = cv2.LUT(c_b, decr_ch_lut).astype(np.uint8)
+	 
+
+	c_h, c_s, c_v = cv2.split(cv2.cvtColor(img,
+	    cv2.COLOR_RGB2HSV))
+	c_s = cv2.LUT(c_s, incr_ch_lut).astype(np.uint8)
+	 
+	img_warmer = cv2.cvtColor(cv2.merge(
+	                      (c_h, c_s, c_v)),
+	                       cv2.COLOR_HSV2RGB)
+	return img_warmer
+
+def cooler(img, amount):
+
+	if (amount < 0 or amount > 1):
+		raise NameError('amount must be between 0 and 1')
+
+	incr_ch_lut = create_LUT_8UC1([0, 64,      192,      256],
+	                              [0, 64 + 40*amount, 192 + 45*amount, 256])
+	decr_ch_lut = create_LUT_8UC1([0, 64,      192,      256],
+                       	          [0, 64 - 52*amount, 192 - 85*amount, 192])
+
+	c_r, c_g, c_b = cv2.split(img)
+	c_r = cv2.LUT(c_r, decr_ch_lut).astype(np.uint8)
+	c_b = cv2.LUT(c_b, incr_ch_lut).astype(np.uint8)
+	img = cv2.merge((c_r, c_g, c_b))
+
+	c_h, c_s, c_v = cv2.split(cv2.cvtColor(img, cv2.COLOR_RGB2HSV))
+	c_s = cv2.LUT(c_s, decr_ch_lut).astype(np.uint8)
+	img_cooler = cv2.cvtColor(cv2.merge(
+    	                     (c_h, c_s, c_v)), 
+                              cv2.COLOR_HSV2RGB)
+	return img_cooler
 
 def updatefig(fig):
     global a
