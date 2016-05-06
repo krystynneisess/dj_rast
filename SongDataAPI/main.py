@@ -16,7 +16,7 @@ interval = {}
 interval["fly_me_to_the_moon"] = 400
 interval["chum"] = 650
 
-images = ['small','birds', 'chemise', 'city', 'clown', 
+images = ['tiger','birds', 'chemise', 'city', 'clown', 
           'fox_1','fox_2', 'guitarist', 'parasol', 
           'seascape', 'shape', 'tree', 'under_expose']
 print('----===== Available Images =====----')
@@ -76,7 +76,7 @@ avg = np.mean(frequency_spread)
 a = 0
 toggle = 0
 fig = plt.figure(2, figsize=(20,8))
-my_interval = interval["fly_me_to_the_moon"]
+my_interval = interval[song_str]
 
 bpm = 400
 increment = float(song_samples)*float(bpm)/(float(song_length)*float(1000))
